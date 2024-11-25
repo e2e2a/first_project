@@ -1,5 +1,5 @@
 const waitForElement = async (page, selector, options = {}) => {
-  const { visible = false, timeout = 10000 } = options;
+  const { visible = false, timeout = 80000 } = options;
 
   try {
     return await page.waitForSelector(selector, { visible, timeout });

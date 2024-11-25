@@ -17,7 +17,6 @@ module.exports.index = async (req, res) => {
         const url = 'https://www.coles.com.au/browse/health-beauty';
         console.log(`Navigating to ${url}...`);
 
-        // Retry navigation with a custom function
         await safeNavigate(page, url);
 
         console.log('Page loaded successfully.');
@@ -42,24 +41,16 @@ module.exports.index = async (req, res) => {
         const location = firstWord;
 
         // Wait for the search input and type the location
-        await waitForElement(page, searchInputSelector, { visible: true, timeout: 70000 }); // Ensure the field is visible
+        await waitForElement(page, searchInputSelector, { visible: true, timeout: 70000 });
         await page.focus(searchInputSelector); // Ensure focus is on the input field
         await page.type(searchInputSelector, location, { delay: 100 }); // Add a small delay between keystrokes to mimic human typing
         console.log(`Typed location: ${location}`);
         // await waitForElement(page, 'div[role="presentation"].MuiAutocomplete-popper', { visible: true, timeout: 60000 });
         await delay(3000);
-        // Capture the entire outerHTML of the dropdown
-        // const dropdownHTML = await page.$eval('div[role="presentation"].MuiAutocomplete-popper', (el) => el.outerHTML);
-
-        // console.log('Captured HTML of dropdown:', dropdownHTML);
-
-        // Step 4: Click on the "Chadstone, VIC 3148" suggestion
         await waitForElement(page, 'div.MuiAutocomplete-popper', { visible: true, timeout: 60000 });
 
-        // The name of the option to click
         const optionName = req.body.location;
 
-        // Dynamically locate the option by its text content
         const specificOptionSelector = `li[role="option"]`;
         // Find and click the option with matching text
         try {
